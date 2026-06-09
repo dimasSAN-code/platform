@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Aplikasi Toko</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md mx-4">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">Login Sistem</h2>
+
+        <form id="formLogin" class="space-y-4">
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Username</label>
+                <input type="text" id="username" placeholder="Masukkan username"
+                    class="w-full border border-gray-300 p-3 rounded-xl outline-none focus:border-blue-500 transition"
+                    required>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-1">Password</label>
+                <input type="password" id="password" placeholder="Masukkan password"
+                    class="w-full border border-gray-300 p-3 rounded-xl outline-none focus:border-blue-500 transition"
+                    required>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-xl transition shadow-md">
+                Masuk
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('formLogin').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            try {
+                const response = await fetch('../api-toko/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: user, password: pass })
+                });
+
+                const hasil = await response.json();
+
+                if (hasil.status === 'success') {
+                    localStorage.setItem('token_toko', hasil.token);
+                    window.location.href = 'index.html';
+                } else {
+                    alert('Gagal: ' + hasil.pesan);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Gagal terhubung ke database atau API login.');
+            }
+        });
+    </script>
+</body>
+
+</html>

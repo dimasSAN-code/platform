@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Barang</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10b981">
+</head>
+
+<body class="bg-gray-100 p-8">
+
+    <div class="max-w-5xl mx-auto bg-white shadow-lg rounded-2xl p-6">
+
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-800">Daftar Barang Toko</h1>
+
+            <button onclick="logout()"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Keluar
+            </button>
+        </div>
+
+        <form id="formBarang" class="mb-6 flex flex-col md:flex-row gap-3">
+            <input type="text" id="nama_barang" placeholder="Nama Barang"
+                class="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none p-3 rounded-xl w-full transition"
+                required>
+
+            <input type="number" id="harga" placeholder="Harga"
+                class="border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none p-3 rounded-xl w-full transition"
+                required>
+
+            <button type="submit"
+                class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl transition shadow-md">
+                Simpan
+            </button>
+        </form>
+
+        <div class="overflow-x-auto">
+            <table class="w-full border border-gray-200 rounded-xl overflow-hidden">
+                <thead class="bg-blue-500 text-white">
+                    <tr>
+                        <th class="p-2 text-center w-20">No</th>
+                        <th class="p-2 text-left">Nama Barang</th>
+                        <th class="p-2 text-center">Harga</th>
+                        <th class="p-2 text-center min-w-[160px]">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tabel-barang" class="text-gray-700">
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div id="modalEdit" class="fixed inset-0 bg-black/50 hidden z-50">
+        <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 m-4">
+            <h2 class="text-2xl font-bold mb-5 text-gray-800">Edit Barang</h2>
+
+            <input type="hidden" id="edit_id">
+
+            <div class="mb-4">
+                <label class="block mb-2 font-medium text-gray-700">Nama Barang</label>
+                <input type="text" id="edit_nama"
+                    class="w-full border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none p-3 rounded-xl transition">
+            </div>
+
+            <div class="mb-6">
+                <label class="block mb-2 font-medium text-gray-700">Harga</label>
+                <input type="number" id="edit_harga"
+                    class="w-full border border-gray-300 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-200 outline-none p-3 rounded-xl transition">
+            </div>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="tutupModal()"
+                    class="bg-gray-400 hover:bg-gray-500 text-white px-5 py-2 rounded-xl transition">Batal</button>
+                <button onclick="updateBarang()"
+                    class="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-2 rounded-xl transition shadow">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('Service Worker berhasil didaftarkan!', reg))
+                    .catch(err => console.log('Service Worker gagal didaftarkan:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>
